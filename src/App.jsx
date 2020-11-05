@@ -18,6 +18,9 @@ class App extends Component {
 	}
 
 	click(player) {
+		if (this.state.setup) {
+			return
+		}
 		if (!this.state.active) {
 			// First Round (no active players)
 			const oppositePlayer = player === 'player1' ? 'player2' : 'player1'
@@ -69,6 +72,10 @@ class App extends Component {
 	}
 
 	updateAddition(newAddition) {
+		if (!newAddition) {
+			this.setState({ addition: 0 })
+			return;
+		}
 		console.log(newAddition)
 		this.setState({ addition: parseInt(newAddition, 10) })
 	}
@@ -147,7 +154,7 @@ class App extends Component {
 										</Grid>
 									</Grid>
 									<Grid item xs={12}>
-										<Grid container direction="row" justify="flex-start">
+										<Grid container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%' }}>
 											<Grid item xs={11} style={{marginLeft: '15px'}}>
 												<Button style={{ float: 'right', backgroundColor: 'orange' }} variant="outlined" size="large" onClick={() => this.startGame()}>
 													Start
