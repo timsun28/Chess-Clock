@@ -9,6 +9,7 @@ export default function CenterSettings(props) {
                 <GameTypeSelection setGameType={props.setGameType} selectedGameType={props.selectedGameType}/>
                 <PlayerInput updateMinutes={props.updateMinutes} playerSettings={{ value: props.player1, name: 'Player 1', key: 'player1' }} />
                 <AdditionInput addition={props.addition} updateAddition={props.updateAddition} />
+                <DelayInput delay={props.delay} updateDelay={props.updateDelay} />
                 <PlayerInput updateMinutes={props.updateMinutes} playerSettings={{ value: props.player2, name: 'Player 2', key: 'player2' }} />
                 <StartGameButton startGame={props.startGame} />
             </Grid>
@@ -22,7 +23,7 @@ function GameTypeSelection(props) {
         {key: 'delayBullet', value: 'Delay Bullet 1|2'},
         {key: 'fischer', value: 'Fischer 5|5'},
         {key: 'fischerRapid', value: 'Fischer Rapid 10|5'},
-        {key: 'tournament', value: 'Tournament 40/2hr, G60, 5s delay'},
+        // {key: 'tournament', value: 'Tournament 40/2hr, G60, 5s delay'},
     ]
     return (
         <Grid item xs={12}>
@@ -81,7 +82,7 @@ function AdditionInput(props) {
         <Grid item xs={12}>
             <Grid container direction="row" justify="center" alignItems="center" style={{ height: '100%' }}>
                 <Grid item xs={4}>
-                    Extra Seconds
+                    Additional Seconds
                 </Grid>
                 <Grid item xs={7}>
                     <TextField
@@ -99,7 +100,31 @@ function AdditionInput(props) {
             </Grid>
         </Grid>
     )
+}
 
+function DelayInput(props) {
+    return (
+        <Grid item xs={12}>
+            <Grid container direction="row" justify="center" alignItems="center" style={{ height: '100%' }}>
+                <Grid item xs={4}>
+                    Delay in Seconds
+                </Grid>
+                <Grid item xs={7}>
+                    <TextField
+                        id="outlined-number-delay"
+                        label="Seconds"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                        value={props.delay}
+                        onChange={e => props.updateDelay(e.target.value)}
+                    />
+                </Grid>
+            </Grid>
+        </Grid>
+    )
 }
 
 function StartGameButton(props) {

@@ -14,12 +14,15 @@ class App extends Component {
 			player1: 300,
 			player2: 300,
 			addition: 5,
+			delay: 0,
+			currentDelay: 0,
 			active: '',
 			setup: true,
 			selectedGameType: 'fischer'
 		}
 		this.click = this.click.bind(this);
 		this.updateAddition = this.updateAddition.bind(this);
+		this.updateDelay = this.updateDelay.bind(this);
 		this.updateMinutes = this.updateMinutes.bind(this);
 		this.startGame = this.startGame.bind(this);
 		this.reset = this.reset.bind(this);
@@ -33,9 +36,11 @@ class App extends Component {
 		}
 		if (!this.state.active) {
 			// First Round (no active players)
-			const oppositePlayer = player === 'player1' ? 'player2' : 'player1'
-			this.setState({ active: oppositePlayer })
-			this.intervalID = setInterval(() => this.tick(oppositePlayer), 1000);
+			this.setState(prevState => { return { 
+				active: prevState.active === 'player1' ? 'player2' : 'player1',
+				currentDelay: prevState.delay - 1
+			}})
+			this.intervalID = setInterval(() => this.tick(this.state.active), 1000);
 			return;
 		}
 
@@ -45,15 +50,21 @@ class App extends Component {
 		}
 
 		clearInterval(this.intervalID)
-		const oppositePlayer = this.state.active === 'player1' ? 'player2' : 'player1'
-		this.setState({ active: oppositePlayer })
-		this.intervalID = setInterval(() => this.tick(oppositePlayer), 1000);
-		this.setState({ [player]: this.state[player] + this.state.addition })
+		this.setState(prevState => { return { 
+			active: prevState.active === 'player1' ? 'player2' : 'player1',
+			[player]: prevState[player] + prevState.addition,
+			currentDelay: prevState.delay - 1
+		}})
+		this.intervalID = setInterval(() => this.tick(this.state.active), 1000);
 	}
 
 	tick(player) {
-		const currentSeconds = this.state[player];
-		this.setState({ [player]: currentSeconds - 1 })
+		if (this.state.currentDelay <= 0) {
+			this.setState(prevState => { return {[player]: prevState[player] - 1}})
+		} else {
+			this.setState(prevState => { return {currentDelay: prevState.currentDelay - 1}})
+		}
+		
 	}
 
 
@@ -77,11 +88,11 @@ class App extends Component {
 	}
 
 	updateAddition(newAddition) {
-		if (!newAddition) {
-			this.setState({ addition: 0 })
-			return;
-		}
-		this.setState({ addition: parseInt(newAddition, 10) })
+		this.setState({ addition: newAddition ? parseInt(newAddition, 10) : 0 })
+	}
+
+	updateDelay(newDelay) {
+		this.setState({ delay: newDelay ? parseInt(newDelay, 10) : 0 })
 	}
 
 	setGameType(newGameType) {
@@ -97,6 +108,7 @@ class App extends Component {
 			player1: gameTypes[newGameType].playerTime, 
 			player2: gameTypes[newGameType].playerTime, 
 			addition: gameTypes[newGameType].addition,
+			delay: gameTypes[newGameType].delay,
 			selectedGameType: newGameType
 		})
 	}
@@ -108,7 +120,17 @@ class App extends Component {
 					<Grid container style={{ 'height': '100%' }}>
 						<Timer player='player1' secondsLeft={this.state.player1} active={this.state.active} click={this.click} />
 						{this.state.setup ? 
-						<CenterSettings player1={this.state.player1} player2={this.state.player2} updateMinutes={this.updateMinutes} addition={this.state.addition} updateAddition={this.updateAddition} startGame={this.startGame} setGameType={this.setGameType} selectedGameType={this.state.selectedGameType}/> 
+						<CenterSettings 
+							player1={this.state.player1} 
+							player2={this.state.player2} 
+							updateMinutes={this.updateMinutes} 
+							addition={this.state.addition} 
+							updateAddition={this.updateAddition} 
+							startGame={this.startGame} 
+							setGameType={this.setGameType} 
+							selectedGameType={this.state.selectedGameType}
+							delay={this.state.delay}
+							updateDelay={this.updateDelay}/> 
 						: 
 						<InGameSettings reset={this.reset} pause={this.pause}/>}
 						<Timer player='player2' secondsLeft={this.state.player2} active={this.state.active} click={this.click} />
