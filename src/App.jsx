@@ -60,7 +60,7 @@ class App extends Component {
 
 	tick(player) {
 		if (this.state.currentDelay <= 0) {
-			this.setState(prevState => { return {[player]: prevState[player] - 1}})
+			this.setState(prevState => { return {[player]: prevState[player] === 0 ? 0 :  prevState[player] - 1}})
 		} else {
 			this.setState(prevState => { return {currentDelay: prevState.currentDelay - 1}})
 		}
