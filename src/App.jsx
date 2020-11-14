@@ -16,6 +16,7 @@ class App extends Component {
 			addition: 5,
 			active: '',
 			setup: true,
+			selectedGameType: 'fischer'
 		}
 		this.click = this.click.bind(this);
 		this.updateAddition = this.updateAddition.bind(this);
@@ -23,6 +24,7 @@ class App extends Component {
 		this.startGame = this.startGame.bind(this);
 		this.reset = this.reset.bind(this);
 		this.pause = this.pause.bind(this);
+		this.setGameType = this.setGameType.bind(this)
 	}
 
 	click(player) {
@@ -79,8 +81,24 @@ class App extends Component {
 			this.setState({ addition: 0 })
 			return;
 		}
-		console.log(newAddition)
 		this.setState({ addition: parseInt(newAddition, 10) })
+	}
+
+	setGameType(newGameType) {
+		const gameTypes = {
+			'fischerBlitz': {playerTime: 300, addition: 0, delay: 0},
+			'delayBullet': {playerTime: 60, addition: 0, delay: 2},
+			'fischer': {playerTime: 300, addition: 5, delay: 0},
+			'fischerRapid': {playerTime: 600, addition: 5, delay: 0},
+			'tournament': {playerTime: 7200, addition: 5, delay: 5}
+		}
+		
+		this.setState({
+			player1: gameTypes[newGameType].playerTime, 
+			player2: gameTypes[newGameType].playerTime, 
+			addition: gameTypes[newGameType].addition,
+			selectedGameType: newGameType
+		})
 	}
 
 	render() {
@@ -90,7 +108,7 @@ class App extends Component {
 					<Grid container style={{ 'height': '100%' }}>
 						<Timer player='player1' secondsLeft={this.state.player1} active={this.state.active} click={this.click} />
 						{this.state.setup ? 
-						<CenterSettings player1={this.state.player1} player2={this.state.player2} updateMinutes={this.updateMinutes} addition={this.state.addition} updateAddition={this.updateAddition} startGame={this.startGame}/> 
+						<CenterSettings player1={this.state.player1} player2={this.state.player2} updateMinutes={this.updateMinutes} addition={this.state.addition} updateAddition={this.updateAddition} startGame={this.startGame} setGameType={this.setGameType} selectedGameType={this.state.selectedGameType}/> 
 						: 
 						<InGameSettings reset={this.reset} pause={this.pause}/>}
 						<Timer player='player2' secondsLeft={this.state.player2} active={this.state.active} click={this.click} />
