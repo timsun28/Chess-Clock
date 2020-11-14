@@ -1,8 +1,10 @@
 import './App.css';
 import React, { Component } from 'react';
-import { Button, Container, Grid, TextField } from '@material-ui/core';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
-import RestoreIcon from '@material-ui/icons/Restore';
+import { Container, Grid } from '@material-ui/core';
+
+import Timer from './timer';
+import InGameSettings from './InGameSettings.jsx';
+import CenterSettings from './centerSettings';
 
 
 class App extends Component {
@@ -15,6 +17,12 @@ class App extends Component {
 			active: '',
 			setup: true,
 		}
+		this.click = this.click.bind(this);
+		this.updateAddition = this.updateAddition.bind(this);
+		this.updateMinutes = this.updateMinutes.bind(this);
+		this.startGame = this.startGame.bind(this);
+		this.reset = this.reset.bind(this);
+		this.pause = this.pause.bind(this);
 	}
 
 	click(player) {
@@ -47,16 +55,11 @@ class App extends Component {
 	}
 
 
-	formatTime(totalAmountOfSeconds) {
-		const minutes = Math.floor(totalAmountOfSeconds / 60)
-		const seconds = totalAmountOfSeconds % 60
-		return `${minutes} : ${seconds.toString().padStart(2, '0')}`
-	};
-
 	reset() {
 		this.setState({ player1: 300, player2: 300, setup: true })
 		this.pause();
 	}
+
 	pause() {
 		clearInterval(this.intervalID);
 		this.setState({ active: '' })
@@ -85,98 +88,12 @@ class App extends Component {
 			<div className="App">
 				<Container fixed style={{ height: '100vh', paddingLeft: '0', paddingRight: '0' }}>
 					<Grid container style={{ 'height': '100%' }}>
-						<Grid item xs={12} style={{ 'background': this.state.active === 'player1' ? 'orange' : 'gray' }} onClick={() => this.click('player1')}>
-							<div className='Time-box upside-down lg-text'>
-								{this.formatTime(this.state.player1)}
-							</div>
-						</Grid>
-						{this.state.setup ?
-							<Grid item xs={12}>
-								<Grid container style={{ height: '100%' }}>
-									<Grid item xs={12}>
-										<Grid container direction="row" justify="center" alignItems="center" style={{ height: '100%' }}>
-											<Grid item xs={4}>
-												Player 1
-											</Grid>
-											<Grid item xs={7}>
-												<TextField
-													id="outlined-number-player1"
-													label="Minutes"
-													type="number"
-													InputLabelProps={{
-														shrink: true,
-													}}
-													variant="outlined"
-													value={this.state.player1 / 60}
-													onChange={e => this.updateMinutes('player1', e.target.value)}
-												/>
-											</Grid>
-										</Grid>
-									</Grid>
-									<Grid item xs={12}>
-										<Grid container direction="row" justify="center" alignItems="center" style={{ height: '100%'}}>
-											<Grid item xs={4}>
-												Extra Seconds
-											</Grid>
-											<Grid item xs={7}>
-												<TextField
-													id="outlined-number-addition"
-													label="Seconds"
-													type="number"
-													InputLabelProps={{
-														shrink: true,
-													}}
-													variant="outlined"
-													value={this.state.addition}
-													onChange={e => this.updateAddition(e.target.value)}
-												/>
-											</Grid>
-										</Grid>
-									</Grid>
-									<Grid item xs={12}>
-										<Grid container direction="row" justify="center" alignItems="center" style={{ height: '100%' }}>
-											<Grid item xs={4}>
-												Player 2
-											</Grid>
-											<Grid item xs={7}>
-												<TextField
-													id="outlined-number-player2"
-													label="Minutes"
-													type="number"
-													InputLabelProps={{
-														shrink: true,
-													}}
-													variant="outlined"
-													value={this.state.player1 / 60}
-													onChange={e => this.updateMinutes('player2', e.target.value)}
-												/>
-											</Grid>
-										</Grid>
-									</Grid>
-									<Grid item xs={12}>
-										<Grid container direction="row" justify="flex-start" alignItems="center" style={{ height: '100%' }}>
-											<Grid item xs={11} style={{marginLeft: '15px'}}>
-												<Button style={{ float: 'right', backgroundColor: 'orange' }} variant="outlined" size="large" onClick={() => this.startGame()}>
-													Start
-												</Button>
-											</Grid>
-										</Grid>
-									</Grid>
-								</Grid>
-							</Grid>
-							:
-							<Grid item xs={12} style={{ marginBottom: '-15%', marginTop: '-15%' }}>
-								<div className='Time-box'>
-									<RestoreIcon onClick={() => this.reset()} style={{ 'fontSize': 75 }} />
-									<PauseCircleOutlineIcon onClick={() => this.pause()} style={{ 'fontSize': 75 }} />
-								</div>
-							</Grid>
-						}
-						<Grid item xs={12} style={{ 'background': this.state.active === 'player2' ? 'orange' : 'gray' }} onClick={() => this.click('player2')}>
-							<div className='Time-box lg-text'>
-								{this.formatTime(this.state.player2)}
-							</div>
-						</Grid>
+						<Timer player='player1' secondsLeft={this.state.player1} active={this.state.active} click={this.click} />
+						{this.state.setup ? 
+						<CenterSettings player1={this.state.player1} player2={this.state.player2} updateMinutes={this.updateMinutes} addition={this.state.addition} updateAddition={this.updateAddition} startGame={this.startGame}/> 
+						: 
+						<InGameSettings reset={this.reset} pause={this.pause}/>}
+						<Timer player='player2' secondsLeft={this.state.player2} active={this.state.active} click={this.click} />
 					</Grid>
 				</Container>
 			</div>
