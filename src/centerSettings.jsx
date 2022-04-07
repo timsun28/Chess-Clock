@@ -36,11 +36,8 @@ function GameTypeSelection(props) {
                             id="demo-simple-select-outlined"
                             value={props.selectedGameType}
                             onChange={(event) => props.setGameType(event.target.value)}
-                            label="Age"
+                            label="Formats"
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
                             {gameTypes.map(item => {
                                 return <MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>;
                             })}
