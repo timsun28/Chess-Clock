@@ -1,6 +1,6 @@
 
 # Demo:
-Checkout [chessclock.ga](https://chessclock.ga) for a live demo!
+Checkout [https://chess.krito.tech/](https://chess.krito.tech/) for a live demo!
 
 # Improve Chess Clock
 `npm start`
