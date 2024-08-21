@@ -1,12 +1,15 @@
+import { GameState } from "@/app/page";
 import { TextField } from "@mui/material";
 
-interface PlayerInputProps {
+export default function PlayerInput({
+    playerTitle,
+    playerValue,
+    setGameState,
+}: {
     playerTitle: string;
     playerValue: number;
-    setPlayer: (value: React.SetStateAction<number>) => void;
-}
-
-export default function PlayerInput({ playerTitle, playerValue, setPlayer }: PlayerInputProps) {
+    setGameState: (value: React.SetStateAction<GameState>) => void;
+}) {
     return (
         <TextField
             id={`minutes-input-${playerTitle}`}
@@ -19,7 +22,7 @@ export default function PlayerInput({ playerTitle, playerValue, setPlayer }: Pla
             value={playerValue / 60}
             onChange={(e) => {
                 const value = parseInt(e.target.value, 10);
-                setPlayer(value * 60);
+                setGameState((prevState) => ({ ...prevState, player1: value * 60 }));
             }}
         />
     );

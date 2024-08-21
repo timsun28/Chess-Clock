@@ -1,13 +1,16 @@
-import { Player } from "../../pages";
+import { Player } from "@/app/page";
 
-interface TimerProps {
+export default function Timer({
+    secondsLeft,
+    active,
+    player,
+    click,
+}: {
     secondsLeft: number;
-    active: Player;
+    active: Player | undefined;
     player: Player;
-    click: (player: string) => void;
-}
-
-export default function Timer({ secondsLeft, active, player, click }: TimerProps) {
+    click: (player: Player) => void;
+}) {
     function formatTime(totalAmountOfSeconds: number) {
         const minutes = Math.floor(totalAmountOfSeconds / 60);
         const seconds = totalAmountOfSeconds % 60;
@@ -16,7 +19,7 @@ export default function Timer({ secondsLeft, active, player, click }: TimerProps
     return (
         <div
             onClick={() => click(player)}
-            className={`flex items-center justify-center h-full  ${
+            className={`flex items-center text-6xl justify-center h-full  ${
                 active === player ? "bg-orange-500" : "bg-gray-400"
             } ${player === "player1" && "rotate-180"}`}
         >

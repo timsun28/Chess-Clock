@@ -1,12 +1,13 @@
-import { GameType } from "../../pages";
+import { GameType } from "@/app/page";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-interface GameTypeSelectionProps {
+export default function GameTypeSelection({
+    selectedGameType,
+    setGameType,
+}: {
     selectedGameType: GameType;
     setGameType: (gameType: GameType) => void;
-}
-
-export default function GameTypeSelection({ selectedGameType, setGameType }: GameTypeSelectionProps) {
+}) {
     const gameTypes: Array<{ key: GameType; value: string }> = [
         { key: "fischerBlitz", value: "Fischer Blitz 5|0" },
         { key: "delayBullet", value: "Delay Bullet 1|2" },
