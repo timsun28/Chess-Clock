@@ -4,7 +4,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "webworker"
     ],
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
@@ -24,6 +25,9 @@
         "name": "next"
       }
     ],
+    "types": [
+      "@serwist/next/types"
+    ],
     "paths": {
       "@/*": [
         "./*"
@@ -37,6 +41,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "public/sw.js"
   ]
 }

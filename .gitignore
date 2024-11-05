@@ -23,3 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .next
+
+# Serwist
+public/sw*
+public/swe-worker*

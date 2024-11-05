@@ -2,35 +2,56 @@ import "@/styles/globals.css";
 import { Metadata } from "next";
 import type { Viewport } from "next";
 
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
+
+const APP_NAME = "Chess Clock";
+const APP_DEFAULT_TITLE = "Chess Clock";
+const APP_TITLE_TEMPLATE = "%s - Chess Clock";
+const APP_DESCRIPTION = "Simple Chess Clock";
+
 export const metadata: Metadata = {
-    title: "Chess Clock",
-    description: "Simple Chess Clock",
-    icons: {
-        apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-        icon: [
-            { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-            { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-        ],
-        other: [
-            { rel: "manifest", url: "/site.webmanifest" },
-            { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#5bbad5" },
-        ],
+    applicationName: APP_NAME,
+    title: {
+        default: APP_DEFAULT_TITLE,
+        template: APP_TITLE_TEMPLATE,
     },
-    other: {
-        "msapplication-TileColor": "#da532c",
+    description: APP_DESCRIPTION,
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: APP_DEFAULT_TITLE,
+        // startUpImage: [],
+    },
+    formatDetection: {
+        telephone: false,
+    },
+    openGraph: {
+        type: "website",
+        siteName: APP_NAME,
+        title: {
+            default: APP_DEFAULT_TITLE,
+            template: APP_TITLE_TEMPLATE,
+        },
+        description: APP_DESCRIPTION,
+    },
+    twitter: {
+        card: "summary",
+        title: {
+            default: APP_DEFAULT_TITLE,
+            template: APP_TITLE_TEMPLATE,
+        },
+        description: APP_DESCRIPTION,
     },
 };
 
 export const viewport: Viewport = {
-    themeColor: "black",
-    initialScale: 1,
-    maximumScale: 1,
-    width: "device-width",
+    themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
+        <html lang="en" dir="ltr">
             <body>{children}</body>
         </html>
     );
