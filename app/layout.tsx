@@ -1,9 +1,6 @@
 import "@/styles/globals.css";
-import { Metadata } from "next";
-import type { Viewport } from "next";
 
 import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
 
 const APP_NAME = "Chess Clock";
 const APP_DEFAULT_TITLE = "Chess Clock";
