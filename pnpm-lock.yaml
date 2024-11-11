@@ -49,8 +49,8 @@ importers:
         specifier: ^8.4.47
         version: 8.4.47
       serwist:
-        specifier: ^9.0.9
-        version: 9.0.9(typescript@5.6.3)
+        specifier: ^9.0.10
+        version: 9.0.10(typescript@5.6.3)
       tailwindcss:
         specifier: ^3.4.14
         version: 3.4.14
@@ -1039,6 +1039,14 @@ packages:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
     engines: {node: '>=10'}
     hasBin: true
+
+  serwist@9.0.10:
+    resolution: {integrity: sha512-r6DiPmR99ZqfSo1T0SePgyUnQz0QmbVF6XywjWtCk1Qgk4EBAdrYRr9Y4Ul8Xge/jAnpEMyrmdSX9N1vgxWVgA==}
+    peerDependencies:
+      typescript: '>=5.0.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   serwist@9.0.9:
     resolution: {integrity: sha512-T3WzdvUjvK1AzNSTSuZkHWWKm0X5UuUaD3jvukHDFaJDmsLZBq0HGlrZ+bpOHoRFwhJSXwuH/V5ksE0I78wwvQ==}
@@ -2114,6 +2122,12 @@ snapshots:
 
   semver@7.6.3:
     optional: true
+
+  serwist@9.0.10(typescript@5.6.3):
+    dependencies:
+      idb: 8.0.0
+    optionalDependencies:
+      typescript: 5.6.3
 
   serwist@9.0.9(typescript@5.6.3):
     dependencies:
