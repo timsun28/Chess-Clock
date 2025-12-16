@@ -1,5 +1,7 @@
 import { GameType } from "@/app/page";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+
+import { Label } from "./ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 export default function GameTypeSelection({
     selectedGameType,
@@ -15,24 +17,24 @@ export default function GameTypeSelection({
         { key: "fischerRapid", value: "Fischer Rapid 10|5" },
         { key: "tournament", value: "Tournament 40/2hr, G60, 5s delay" },
     ];
+    const selectId = "select-gametypes";
+
     return (
-        <FormControl variant="outlined" className="w-full">
-            <InputLabel id="select-gametypes-label">Formats</InputLabel>
-            <Select
-                labelId="select-gametypes-label"
-                id="select-gametypes"
-                value={selectedGameType}
-                onChange={(event) => setGameType(event.target.value as GameType)}
-                label="Formats"
-            >
-                {gameTypes.map((item) => {
-                    return (
-                        <MenuItem key={item.key} value={item.key}>
+        <div className="space-y-2">
+            <Label htmlFor={selectId}>Formats</Label>
+            <Select value={selectedGameType} onValueChange={(value) => setGameType(value as GameType)}>
+                <SelectTrigger id={selectId} aria-label="Select game format" className="w-full justify-between">
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    {gameTypes.map((item) => (
+                        <SelectItem key={item.key} value={item.key}>
                             {item.value}
-                        </MenuItem>
-                    );
-                })}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
             </Select>
-        </FormControl>
+            <p className="text-xs text-neutral-500">Pick a preset or fine-tune the numbers below.</p>
+        </div>
     );
 }

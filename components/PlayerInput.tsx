@@ -1,29 +1,38 @@
-import { GameState } from "@/app/page";
-import { TextField } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
+
+import { GameState, Player } from "@/app/page";
+
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export default function PlayerInput({
     playerTitle,
+    playerKey,
     playerValue,
     setGameState,
 }: {
     playerTitle: string;
+    playerKey: Player;
     playerValue: number;
-    setGameState: (value: React.SetStateAction<GameState>) => void;
+    setGameState: Dispatch<SetStateAction<GameState>>;
 }) {
     return (
-        <TextField
-            id={`minutes-input-${playerTitle}`}
-            label={`${playerTitle} Minutes`}
-            type="number"
-            InputLabelProps={{
-                shrink: true,
-            }}
-            variant="outlined"
-            value={playerValue / 60}
-            onChange={(e) => {
-                const value = parseInt(e.target.value, 10);
-                setGameState((prevState) => ({ ...prevState, player1: value * 60 }));
-            }}
-        />
+        <div className="space-y-2">
+            <Label htmlFor={`minutes-input-${playerTitle}`}>{playerTitle} minutes</Label>
+            <Input
+                id={`minutes-input-${playerTitle}`}
+                type="number"
+                inputMode="numeric"
+                min={0}
+                value={playerValue / 60}
+                onChange={(e) => {
+                    const value = parseInt(e.target.value, 10);
+                    setGameState((prevState) => ({
+                        ...prevState,
+                        [playerKey]: Number.isFinite(value) ? value * 60 : prevState[playerKey],
+                    }));
+                }}
+            />
+        </div>
     );
 }

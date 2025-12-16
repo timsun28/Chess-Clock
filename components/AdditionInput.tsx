@@ -1,27 +1,31 @@
+import { Dispatch, SetStateAction } from "react";
+
 import { GameState } from "@/app/page";
-import { TextField } from "@mui/material";
+
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 export default function AdditionInput({
     addition,
     setGameState,
 }: {
     addition: number;
-    setGameState: (value: React.SetStateAction<GameState>) => void;
+    setGameState: Dispatch<SetStateAction<GameState>>;
 }) {
     return (
-        <TextField
-            id="outlined-number-addition"
-            label="Additional seconds added per move"
-            type="number"
-            InputLabelProps={{
-                shrink: true,
-            }}
-            variant="outlined"
-            value={addition}
-            onChange={(e) => {
-                const value = parseInt(e.target.value, 10);
-                setGameState((prevState) => ({ ...prevState, addition: value ? value : 0 }));
-            }}
-        />
+        <div className="space-y-2">
+            <Label htmlFor="outlined-number-addition">Seconds added per move</Label>
+            <Input
+                id="outlined-number-addition"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                value={addition}
+                onChange={(e) => {
+                    const value = parseInt(e.target.value, 10);
+                    setGameState((prevState) => ({ ...prevState, addition: Number.isFinite(value) ? value : 0 }));
+                }}
+            />
+        </div>
     );
 }
