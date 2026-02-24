@@ -26,7 +26,7 @@ export default function Timer({
       className={cn(
         "flex h-full min-h-0 flex-1 items-center justify-center rounded-3xl border px-3 text-4xl font-semibold tracking-tight transition-all duration-200 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:outline-none sm:min-h-[28vh] sm:px-4 sm:text-6xl",
         isActive
-          ? "bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg"
+          ? "bg-linear-to-br from-orange-500 to-orange-600 text-white shadow-lg"
           : "bg-white/80 text-neutral-800 shadow-sm",
         player === "player1" && "rotate-180",
       )}
